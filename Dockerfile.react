@@ -1,0 +1,26 @@
+# Base image
+FROM node:14-alpine
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy the package.json and package-lock.json files
+COPY ./react-app/package*.json ./
+
+# Install dependencies
+RUN npm install
+RUN npm update
+
+# Copy the rest of the app
+COPY ./react-app/public ./public
+COPY ./react-app/src ./src
+
+
+# Build the app
+RUN npm run build
+
+# Expose the port on which the app will run
+EXPOSE 3000
+
+# Start the app
+CMD ["npm", "start"]
